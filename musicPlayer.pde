@@ -40,6 +40,7 @@ void draw() {
      line (width*8/16,height*10/16,width*13/16,height*10/16);
     }
     stroke (0,0,0);
+    strokeWeight(1);
   /* if (SNumber == 0) {
    //repeat playing nothing / silence
    } else {
@@ -60,7 +61,7 @@ void mouseClicked() {
   if (mouseX>width*14/16 && mouseY<height/16) {//quit buttton
     quitClick();
   }
-  int currentSong = 1;
+  int currentSong = 0;
   if (mouseX>width*8/16 && mouseX<width*13/16 && mouseY>height*10/16 && mouseY<height*12/16) {
     if ( song[currentSong].isPlaying() ) {
       song[currentSong].pause();
