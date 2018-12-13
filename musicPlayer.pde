@@ -5,8 +5,9 @@ import ddf.minim.signals.*;
 import ddf.minim.spi.*;
 import ddf.minim.ugens.*;
 Minim minim;
-int numberOfSongs = 1;
-AudioPlayer[] song = new AudioPlayer[numberOfSongs];
+int totalSongs = 5;
+int songN = 0;
+AudioPlayer[] song = new AudioPlayer[totalSongs];
 
 
 int SNumber = 0;
@@ -19,28 +20,19 @@ void setup() {
   GUI_setup();
   minim = new Minim(this);
   song[0] = minim.loadFile("Powerup.mp3");
+  song[1] = minim.loadFile("Inevitable.mp3");
+  song[2] = minim.loadFile("Motion_Sickness.mp3");
+  song[3] = minim.loadFile("Nothin_Yet.mp3");
+  song[4] = minim.loadFile("Databytez.mp3");
 }
 void draw() {
+  background(songN*10);
   quitButtonDraw();
   text (songLengthDone, width*6/16, height*27/32);
   text (songLength, width*15/16, height*27/32);
-    if (mouseX>width*8/16 && mouseX<width*13/16 && mouseY>height*10/16 && mouseY<height*12/16) {
-     stroke (123,123,123);
-     strokeWeight (3);
-     line (width*8/16,height*10/16,width*8/16,height*12/16);
-     line (width*13/16,height*10/16,width*13/16,height*12/16);
-     line (width*13/16,height*10/16,width*8/16,height*10/16);
-     line (width*8/16,height*12/16,width*13/16,height*12/16);
-    }else{
-     stroke (0,0,0);
-     strokeWeight (3);
-     line (width*8/16,height*10/16,width*8/16,height*12/16);
-     line (width*13/16,height*10/16,width*13/16,height*12/16);
-     line (width*8/16,height*12/16,width*13/16,height*12/16);
-     line (width*8/16,height*10/16,width*13/16,height*10/16);
-    }
-    stroke (0,0,0);
-    strokeWeight(1);
+  highlightDraw ();
+  stroke (0, 0, 0);
+  strokeWeight(1);
   /* if (SNumber == 0) {
    //repeat playing nothing / silence
    } else {
@@ -61,15 +53,61 @@ void mouseClicked() {
   if (mouseX>width*14/16 && mouseY<height/16) {//quit buttton
     quitClick();
   }
-  int currentSong = 0;
   if (mouseX>width*8/16 && mouseX<width*13/16 && mouseY>height*10/16 && mouseY<height*12/16) {
-    if ( song[currentSong].isPlaying() ) {
-      song[currentSong].pause();
-    } else if ( song[currentSong].position() == song[currentSong].length() ) {
-      song[currentSong].rewind();
-      song[currentSong].play();
+    if ( song[songN].position() == song[songN].length() ) {
+      song[songN].rewind();
+      song[songN].play();
     } else {
-      song[currentSong].play();
+      if ( song[songN].isPlaying() ) {//start pause/play button code
+        song[songN].pause();
+      } else {
+        song[songN].play();
+      }
     }
+    //end pause/play button code
+    if (mouseX>width*13/16 && mouseX<width && mouseY>height*10/16 && mouseY<height*12/16) {
+      if ( song[songN].isPlaying() && songN != totalSongs ) {
+        song[songN].pause();//start next button code
+        song[songN].rewind();
+        songN = songN + 1;
+        song[songN].play();
+      }
+      if ( !song[songN].isPlaying() && songN != totalSongs ) {
+        song[songN].rewind();
+        songN = songN + 1;
+      } 
+      if ( song[songN].isPlaying() && songN == totalSongs-1 ) {
+        song[songN].pause();
+        song[songN].rewind();
+        songN = 0;
+        song[songN].play();
+      }
+      if ( !song[songN].isPlaying() && songN == totalSongs -1 ) {
+        song[songN].rewind();
+        songN = 0;
+      }
+    }  
+    if (mouseX>width*5/16 && mouseX<width*8/16 && mouseY>height*10/16 && mouseY<height*12/16) {
+      if ( song[songN].isPlaying() && songN > 0 ) {
+        song[songN].pause();//start prev button code
+        song[songN].rewind();
+        songN = songN - 1;
+        song[songN].play();
+      }
+      if ( !song[songN].isPlaying() && songN > 0 ) {
+        song[songN].rewind();
+        songN = songN - 1;
+      } 
+      if ( song[songN].isPlaying() && songN <= 0 ) {
+        song[songN].pause();
+        song[songN].rewind();
+        songN = totalSongs - 1;
+        song[songN].play();
+      }
+      if ( !song[songN].isPlaying() && songN <= 0 ) {
+        song[songN].rewind();
+        songN = totalSongs - 1;
+      }
+    }//end prev button code
   }
 }
