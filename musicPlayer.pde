@@ -15,6 +15,8 @@ PImage left;
 PImage right;
 int loop = 0;
 int shuffle = 0;
+float DVar2 =185;
+float DVar3 = 0;
 AudioPlayer[] song = new AudioPlayer[totalSongs];
 
 
@@ -30,17 +32,22 @@ void setup() {
   song[4] = minim.loadFile("Databytez.mp3");
 }
 void draw() {
-
-  for (int i = 0; i < song[songN].bufferSize() - 1; i++)
+    for (int i = 0; i < song[songN].bufferSize() - 1; i++)
   {
   }
   float posx = map(song[songN].position(), 0, song[songN].length(), width*6/16, width*15/16);
   highlightDraw ();
-    fill (175,0,0);
+
+fill(DVar2,0,0);
+  if (DVar2 >= 225) {DVar3=1;}
+  else {if (DVar2 <= 165) DVar3=0;}
+  if (DVar3 == 1) {DVar2+= -0.75;}
+  else {if (DVar3 == 0) DVar2+= 0.75;}
+  
     strokeWeight(0);
     rect (width*5.1/16, 0, width*15.9, height*9.9/16); 
     strokeWeight(1);
-  
+    
     image (youtube, width*7.5/16, height/16, width*13.5/16, height*8/16);//album cover space
     quitButtonDraw ();
 
