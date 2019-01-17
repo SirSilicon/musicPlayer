@@ -1,4 +1,6 @@
-
+//all credit for music goes to the Youtube Audio Library
+//everything else was 100% me
+//Dawson Murray
 import ddf.minim.*;
 import ddf.minim.analysis.*;
 import ddf.minim.effects.*;
